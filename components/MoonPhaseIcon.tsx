@@ -6,10 +6,12 @@ interface Props {
 
 export default function MoonPhaseIcon({ illumination, phaseName, size = 40 }: Props) {
   const r = size / 2
+  const ri = r - 1  // disc radius (1px inset)
   const pct = illumination / 100
 
-  // Terminator ellipse rx derived from: lit_area = πr(r ± tRx)/2 = pct·πr²
-  const tRx = Math.abs(2 * pct - 1) * (r - 1)
+  // Terminator ellipse x-radius:
+  //   lit_area = πri(ri ± tRx)/2 = pct·πri²  →  tRx = |2pct−1|·ri
+  const tRx = Math.abs(2 * pct - 1) * ri
 
   const isWaning =
     phaseName.toLowerCase().includes('waning') ||
@@ -17,58 +19,60 @@ export default function MoonPhaseIcon({ illumination, phaseName, size = 40 }: Pr
   const isGibbous = pct > 0.5
 
   const ariaLabel = `${phaseName} — ${illumination}% lit`
+  const clipId = `mc-${illumination}-${isWaning ? 'n' : 'x'}`
+  const top = `${r},${1}`
+  const bot = `${r},${size - 1}`
 
-  // Edge cases
   if (illumination <= 1) {
     return (
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-label={ariaLabel} role="img">
-        <circle cx={r} cy={r} r={r - 1} fill="#0f172a" />
+        <circle cx={r} cy={r} r={ri} fill="#0f172a" />
       </svg>
     )
   }
   if (illumination >= 99) {
     return (
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-label={ariaLabel} role="img">
-        <circle cx={r} cy={r} r={r - 1} fill="#e2e8f0" />
+        <circle cx={r} cy={r} r={ri} fill="#e2e8f0" />
       </svg>
     )
   }
 
-  // Build lit-area path.
-  // Convention: waxing = light on right, waning = light on left.
-  // SVG arc sweep: 0 = CCW, 1 = CW.
+  // Strategy: draw bright disc, then overlay the shadow region.
   //
-  // Each path traces:
-  //   1. The lit-side semicircle of the outer disc (top → bottom)
-  //   2. Back to top via the terminator ellipse
+  // SVG arc sweep: 1 = CW on screen (y-down), 0 = CCW.
+  //   top→bot sweep=1: RIGHT side    top→bot sweep=0: LEFT side
+  //   bot→top sweep=1: LEFT side     bot→top sweep=0: RIGHT side
   //
-  // Crescent  (<50%): terminator cuts INTO the lit semicircle  → same sweep back
-  // Gibbous   (>50%): terminator ADDS a sliver on the dark side → opposite sweep back
-  const top = `${r},${1}`
-  const bot = `${r},${size - 1}`
-  let path: string
+  // Shadow paths (2 arcs each):
+  //
+  //  Waning crescent  (shadow RIGHT, large):
+  //    right disc arc down (CW) + left terminator back up (CW)
+  //    M top  A ri,ri   0 0,1 bot  A tRx,ri  0 0,1 top
+  //
+  //  Waning gibbous   (shadow RIGHT, thin):
+  //    right terminator arc down (CW) + right disc limb back up (CCW)
+  //    M top  A tRx,ri  0 0,1 bot  A ri,ri   0 0,0 top
+  //
+  //  Waxing crescent  (shadow LEFT, large):
+  //    left disc arc down (CCW) + right terminator back up (CCW)
+  //    M top  A ri,ri   0 0,0 bot  A tRx,ri  0 0,0 top
+  //
+  //  Waxing gibbous   (shadow LEFT, thin):
+  //    left terminator arc down (CCW) + left disc limb back up (CW)
+  //    M top  A tRx,ri  0 0,0 bot  A ri,ri   0 0,1 top
 
-  if (!isWaning) {
-    // WAXING — light on right
-    if (!isGibbous) {
-      // Crescent: CW right semicircle ↓, CW back up via right side of terminator
-      path = `M ${top} A ${r - 1},${r - 1} 0 0,1 ${bot} A ${tRx},${r - 1} 0 0,1 ${top}`
-    } else {
-      // Gibbous: CW right semicircle ↓, CCW back up via left side of terminator
-      path = `M ${top} A ${r - 1},${r - 1} 0 0,1 ${bot} A ${tRx},${r - 1} 0 0,0 ${top}`
-    }
+  let shadowPath: string
+
+  if (isWaning) {
+    shadowPath = isGibbous
+      ? `M ${top} A ${tRx},${ri} 0 0,1 ${bot} A ${ri},${ri} 0 0,0 ${top}`
+      : `M ${top} A ${ri},${ri} 0 0,1 ${bot} A ${tRx},${ri} 0 0,1 ${top}`
   } else {
-    // WANING — light on left
-    if (!isGibbous) {
-      // Crescent: CCW left semicircle ↓, CCW back up via left side of terminator
-      path = `M ${top} A ${r - 1},${r - 1} 0 0,0 ${bot} A ${tRx},${r - 1} 0 0,0 ${top}`
-    } else {
-      // Gibbous: CCW left semicircle ↓, CW back up via right side of terminator
-      path = `M ${top} A ${r - 1},${r - 1} 0 0,0 ${bot} A ${tRx},${r - 1} 0 0,1 ${top}`
-    }
+    shadowPath = isGibbous
+      ? `M ${top} A ${tRx},${ri} 0 0,0 ${bot} A ${ri},${ri} 0 0,1 ${top}`
+      : `M ${top} A ${ri},${ri} 0 0,0 ${bot} A ${tRx},${ri} 0 0,0 ${top}`
   }
-
-  const clipId = `mc-${illumination}-${isWaning ? 'n' : 'x'}`
 
   return (
     <svg
@@ -80,13 +84,13 @@ export default function MoonPhaseIcon({ illumination, phaseName, size = 40 }: Pr
     >
       <defs>
         <clipPath id={clipId}>
-          <circle cx={r} cy={r} r={r - 1} />
+          <circle cx={r} cy={r} r={ri} />
         </clipPath>
       </defs>
-      {/* Dark background */}
-      <circle cx={r} cy={r} r={r - 1} fill="#0f172a" />
-      {/* Lit area — clipped to disc */}
-      <path d={path} fill="#e2e8f0" clipPath={`url(#${clipId})`} />
+      {/* Bright disc */}
+      <circle cx={r} cy={r} r={ri} fill="#e2e8f0" />
+      {/* Shadow overlay, clipped to disc */}
+      <path d={shadowPath} fill="#0f172a" clipPath={`url(#${clipId})`} />
     </svg>
   )
 }
