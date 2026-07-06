@@ -30,7 +30,7 @@ export default function PlanningTable({ windows }: Props) {
               <th className="text-left px-4 py-3 font-medium" style={{ color: 'var(--fg-muted)' }}>Window</th>
               <th className="text-left px-4 py-3 font-medium hidden sm:table-cell" style={{ color: 'var(--fg-muted)' }}>New Moon</th>
               <th className="text-right px-4 py-3 font-medium" style={{ color: 'var(--fg-muted)' }}>Hi / Lo °F</th>
-              <th className="text-center px-4 py-3 font-medium hidden md:table-cell" style={{ color: 'var(--fg-muted)' }}>Trend</th>
+              <th className="text-center px-4 py-4 font-medium hidden md:table-cell" style={{ color: 'var(--fg-secondary)', lineHeight: 1.3 }}>5yr Temp<br />Trend</th>
               <th className="text-center px-4 py-3 font-medium" style={{ color: 'var(--fg-muted)' }}>Comfort</th>
             </tr>
           </thead>
