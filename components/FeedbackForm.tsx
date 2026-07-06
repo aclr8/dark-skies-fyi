@@ -2,13 +2,29 @@
 
 import { useState } from 'react'
 
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xwvdzqjp'
+
 export default function FeedbackForm() {
   const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState(false)
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    // TODO: wire to Server Action or Formspree
-    setSubmitted(true)
+    const form = e.currentTarget
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      })
+      if (res.ok) {
+        setSubmitted(true)
+      } else {
+        setError(true)
+      }
+    } catch {
+      setError(true)
+    }
   }
 
   if (submitted) {
@@ -89,6 +105,12 @@ export default function FeedbackForm() {
             onBlur={(e) => (e.target.style.borderColor = 'var(--border)')}
           />
         </div>
+
+        {error && (
+          <p className="text-sm" style={{ color: 'var(--rating-poor)' }}>
+            Something went wrong — please try again.
+          </p>
+        )}
 
         <button
           type="submit"
