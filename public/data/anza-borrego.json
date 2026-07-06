@@ -1,0 +1,122 @@
+{
+  "schema_version": "1",
+  "generated_at": "2026-07-06T18:00:00Z",
+  "park": {
+    "slug": "anza-borrego",
+    "name": "Anza-Borrego Desert State Park",
+    "latitude": 33.259,
+    "longitude": -116.404,
+    "timezone": "America/Los_Angeles"
+  },
+  "this_week": {
+    "nights": [
+      {
+        "date": "2026-07-06", "label": "Mon Jul 6", "rating": "marginal", "rating_emoji": "⚠️",
+        "dark_window_start": "21:14", "dark_window_end": "00:12", "dark_window_minutes": 178,
+        "moon_phase_name": "Last Quarter", "moon_illumination_pct": 52, "moon_age_days": 22,
+        "moonrise": "00:12", "moonset": "13:28",
+        "cloud_cover_hourly": [
+          {"hour":"21:00","pct":10},{"hour":"22:00","pct":8},{"hour":"23:00","pct":12},{"hour":"00:00","pct":10}
+        ],
+        "cloud_cover_avg_pct": 10, "cloud_cover_available": true,
+        "weather_verdict": "Clear — but moon rises at midnight",
+        "moon_note": "Last Quarter moon rises midnight — 3h window before moonrise"
+      },
+      {
+        "date": "2026-07-07", "label": "Tue Jul 7", "rating": "good", "rating_emoji": "🌙",
+        "dark_window_start": "21:14", "dark_window_end": "01:18", "dark_window_minutes": 244,
+        "moon_phase_name": "Waning Gibbous", "moon_illumination_pct": 40, "moon_age_days": 23,
+        "moonrise": "01:18", "moonset": "14:10",
+        "cloud_cover_hourly": [
+          {"hour":"21:00","pct":15},{"hour":"22:00","pct":18},{"hour":"23:00","pct":20},
+          {"hour":"00:00","pct":18},{"hour":"01:00","pct":15}
+        ],
+        "cloud_cover_avg_pct": 17, "cloud_cover_available": true,
+        "weather_verdict": "Partly cloudy — 4h window before moonrise",
+        "moon_note": "Moon rises 1:18 AM — good early-night window"
+      },
+      {
+        "date": "2026-07-08", "label": "Wed Jul 8", "rating": "good", "rating_emoji": "🌙",
+        "dark_window_start": "21:14", "dark_window_end": "02:22", "dark_window_minutes": 308,
+        "moon_phase_name": "Waning Crescent", "moon_illumination_pct": 29, "moon_age_days": 24,
+        "moonrise": "02:22", "moonset": "14:55",
+        "cloud_cover_hourly": [
+          {"hour":"21:00","pct":5},{"hour":"22:00","pct":5},{"hour":"23:00","pct":8},
+          {"hour":"00:00","pct":10},{"hour":"01:00","pct":8},{"hour":"02:00","pct":6}
+        ],
+        "cloud_cover_avg_pct": 7, "cloud_cover_available": true,
+        "weather_verdict": "Clear — 5h window before moonrise",
+        "moon_note": null
+      },
+      {
+        "date": "2026-07-09", "label": "Thu Jul 9", "rating": "good", "rating_emoji": "🌙",
+        "dark_window_start": "21:14", "dark_window_end": "03:20", "dark_window_minutes": 366,
+        "moon_phase_name": "Waning Crescent", "moon_illumination_pct": 19, "moon_age_days": 25,
+        "moonrise": "03:20", "moonset": "15:44",
+        "cloud_cover_hourly": [
+          {"hour":"21:00","pct":5},{"hour":"22:00","pct":5},{"hour":"23:00","pct":5},
+          {"hour":"00:00","pct":8},{"hour":"01:00","pct":8},{"hour":"02:00","pct":5},{"hour":"03:00","pct":5}
+        ],
+        "cloud_cover_avg_pct": 6, "cloud_cover_available": true,
+        "weather_verdict": "Clear — 6h window before moonrise",
+        "moon_note": null
+      },
+      {
+        "date": "2026-07-10", "label": "Fri Jul 10", "rating": "great", "rating_emoji": "✨",
+        "dark_window_start": "21:14", "dark_window_end": "04:10", "dark_window_minutes": 416,
+        "moon_phase_name": "Waning Crescent", "moon_illumination_pct": 10, "moon_age_days": 26,
+        "moonrise": "04:10", "moonset": "16:38",
+        "cloud_cover_hourly": [
+          {"hour":"21:00","pct":10},{"hour":"22:00","pct":12},{"hour":"23:00","pct":10},
+          {"hour":"00:00","pct":8},{"hour":"01:00","pct":8},{"hour":"02:00","pct":6},
+          {"hour":"03:00","pct":6},{"hour":"04:00","pct":8}
+        ],
+        "cloud_cover_avg_pct": 9, "cloud_cover_available": true,
+        "weather_verdict": "Mostly clear — near-perfect dark window",
+        "moon_note": "Thin crescent rises at 4:10 AM — nearly full dark night"
+      },
+      {
+        "date": "2026-07-11", "label": "Sat Jul 11", "rating": "great", "rating_emoji": "✨",
+        "dark_window_start": "21:14", "dark_window_end": "04:26", "dark_window_minutes": 432,
+        "moon_phase_name": "Waning Crescent", "moon_illumination_pct": 5, "moon_age_days": 27,
+        "moonrise": "05:00", "moonset": "17:35",
+        "cloud_cover_hourly": [
+          {"hour":"21:00","pct":8},{"hour":"22:00","pct":8},{"hour":"23:00","pct":5},
+          {"hour":"00:00","pct":5},{"hour":"01:00","pct":5},{"hour":"02:00","pct":5},
+          {"hour":"03:00","pct":5},{"hour":"04:00","pct":5}
+        ],
+        "cloud_cover_avg_pct": 6, "cloud_cover_available": true,
+        "weather_verdict": "Clear — full dark window, moon rises after dawn",
+        "moon_note": "5% sliver — moon rises after astronomical dawn, entire night is dark"
+      },
+      {
+        "date": "2026-07-12", "label": "Sun Jul 12", "rating": "great", "rating_emoji": "✨",
+        "dark_window_start": "21:14", "dark_window_end": "04:26", "dark_window_minutes": 432,
+        "moon_phase_name": "Waning Crescent", "moon_illumination_pct": 2, "moon_age_days": 28,
+        "moonrise": "05:48", "moonset": "18:30",
+        "cloud_cover_hourly": [
+          {"hour":"21:00","pct":5},{"hour":"22:00","pct":5},{"hour":"23:00","pct":5},
+          {"hour":"00:00","pct":5},{"hour":"01:00","pct":5},{"hour":"02:00","pct":5},
+          {"hour":"03:00","pct":5},{"hour":"04:00","pct":5}
+        ],
+        "cloud_cover_avg_pct": 5, "cloud_cover_available": true,
+        "weather_verdict": "Clear — new moon in 2 days, peak dark sky window",
+        "moon_note": "2% crescent — essentially new moon conditions, best night of the week"
+      }
+    ]
+  },
+  "planning_table": [
+    {"window_start":"2026-07-11","window_end":"2026-07-17","new_moon_date":"Jul 14","new_moon_time_local":"9:57 PM","temp_high_f":105,"temp_low_f":72,"temp_trend":"flat","temp_data_source":"Open-Meteo 5yr avg","comfort_rating":"hot","comfort_label":"Hot"},
+    {"window_start":"2026-08-10","window_end":"2026-08-16","new_moon_date":"Aug 13","new_moon_time_local":"2:14 AM","temp_high_f":102,"temp_low_f":71,"temp_trend":"down","temp_data_source":"Open-Meteo 5yr avg","comfort_rating":"hot","comfort_label":"Hot"},
+    {"window_start":"2026-09-09","window_end":"2026-09-15","new_moon_date":"Sep 12","new_moon_time_local":"4:38 PM","temp_high_f":95,"temp_low_f":65,"temp_trend":"down","temp_data_source":"Open-Meteo 5yr avg","comfort_rating":"warm","comfort_label":"Warm"},
+    {"window_start":"2026-10-08","window_end":"2026-10-14","new_moon_date":"Oct 11","new_moon_time_local":"7:05 AM","temp_high_f":80,"temp_low_f":55,"temp_trend":"down","temp_data_source":"Open-Meteo 5yr avg","comfort_rating":"good","comfort_label":"Good"},
+    {"window_start":"2026-11-07","window_end":"2026-11-13","new_moon_date":"Nov 10","new_moon_time_local":"10:22 AM","temp_high_f":68,"temp_low_f":45,"temp_trend":"down","temp_data_source":"Open-Meteo 5yr avg","comfort_rating":"great","comfort_label":"Great"},
+    {"window_start":"2026-12-06","window_end":"2026-12-12","new_moon_date":"Dec 9","new_moon_time_local":"1:51 PM","temp_high_f":60,"temp_low_f":38,"temp_trend":"down","temp_data_source":"Open-Meteo 5yr avg","comfort_rating":"great","comfort_label":"Great"},
+    {"window_start":"2027-01-04","window_end":"2027-01-10","new_moon_date":"Jan 7","new_moon_time_local":"6:08 PM","temp_high_f":62,"temp_low_f":40,"temp_trend":"flat","temp_data_source":"Open-Meteo 5yr avg","comfort_rating":"great","comfort_label":"Great"},
+    {"window_start":"2027-02-03","window_end":"2027-02-09","new_moon_date":"Feb 6","new_moon_time_local":"8:54 AM","temp_high_f":66,"temp_low_f":43,"temp_trend":"up","temp_data_source":"Open-Meteo 5yr avg","comfort_rating":"great","comfort_label":"Great"},
+    {"window_start":"2027-03-04","window_end":"2027-03-10","new_moon_date":"Mar 7","new_moon_time_local":"11:30 PM","temp_high_f":74,"temp_low_f":50,"temp_trend":"up","temp_data_source":"Open-Meteo 5yr avg","comfort_rating":"good","comfort_label":"Good"},
+    {"window_start":"2027-04-02","window_end":"2027-04-08","new_moon_date":"Apr 5","new_moon_time_local":"5:49 PM","temp_high_f":84,"temp_low_f":57,"temp_trend":"up","temp_data_source":"Open-Meteo 5yr avg","comfort_rating":"good","comfort_label":"Good"},
+    {"window_start":"2027-05-02","window_end":"2027-05-08","new_moon_date":"May 5","new_moon_time_local":"12:15 AM","temp_high_f":95,"temp_low_f":63,"temp_trend":"up","temp_data_source":"Open-Meteo 5yr avg","comfort_rating":"warm","comfort_label":"Warm"},
+    {"window_start":"2027-05-31","window_end":"2027-06-06","new_moon_date":"Jun 3","new_moon_time_local":"3:38 PM","temp_high_f":104,"temp_low_f":70,"temp_trend":"up","temp_data_source":"Open-Meteo 5yr avg","comfort_rating":"hot","comfort_label":"Hot"}
+  ]
+}
