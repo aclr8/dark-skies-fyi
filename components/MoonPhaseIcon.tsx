@@ -4,21 +4,41 @@ interface Props {
   size?: number
 }
 
-function getPhaseEmoji(phaseName: string): string {
+/**
+ * Maps moon illumination + direction to the closest Unicode moon emoji.
+ * Uses illumination percentage and whether the moon is waning (decreasing),
+ * so e.g. "Waning Gibbous 40%" correctly shows a crescent, not a gibbous.
+ *
+ * Thresholds (8 emoji across 0–100%):
+ *   < 3%               → 🌑  New Moon
+ *   Waxing  3–44%      → 🌒  Waxing Crescent
+ *   Waxing 45–64%      → 🌓  First Quarter
+ *   Waxing 65–96%      → 🌔  Waxing Gibbous
+ *   ≥ 97%              → 🌕  Full Moon
+ *   Waning 65–96%      → 🌖  Waning Gibbous
+ *   Waning 45–64%      → 🌗  Last Quarter
+ *   Waning  3–44%      → 🌘  Waning Crescent
+ */
+function getPhaseEmoji(illumination: number, phaseName: string): string {
+  if (illumination < 3)  return '🌑'
+  if (illumination >= 97) return '🌕'
+
   const name = phaseName.toLowerCase()
-  if (name.includes('new moon'))        return '🌑'
-  if (name.includes('waxing crescent')) return '🌒'
-  if (name.includes('first quarter'))   return '🌓'
-  if (name.includes('waxing gibbous'))  return '🌔'
-  if (name.includes('full moon'))       return '🌕'
-  if (name.includes('waning gibbous'))  return '🌖'
-  if (name.includes('last quarter'))    return '🌗'
-  if (name.includes('waning crescent')) return '🌘'
-  return '🌙'
+  const isWaning = name.includes('waning') || name.includes('last quarter')
+
+  if (isWaning) {
+    if (illumination >= 65) return '🌖'   // waning gibbous
+    if (illumination >= 45) return '🌗'   // last quarter
+    return '🌘'                            // waning crescent
+  } else {
+    if (illumination >= 65) return '🌔'   // waxing gibbous
+    if (illumination >= 45) return '🌓'   // first quarter
+    return '🌒'                            // waxing crescent
+  }
 }
 
 export default function MoonPhaseIcon({ illumination, phaseName, size = 40 }: Props) {
-  const emoji = getPhaseEmoji(phaseName)
+  const emoji = getPhaseEmoji(illumination, phaseName)
   return (
     <span
       role="img"

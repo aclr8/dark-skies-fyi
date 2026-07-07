@@ -47,7 +47,7 @@ export default function ParkCard({ park }: Props) {
         </div>
       )}
 
-      <div className="mt-3 text-xs font-medium" style={{ color: 'var(--accent-400)' }}>
+      <div className="mt-3 text-sm font-medium" style={{ color: 'var(--accent-link)' }}>
         View details →
       </div>
     </Link>

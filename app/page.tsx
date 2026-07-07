@@ -13,7 +13,7 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto px-4 w-full">
           <span
             className="inline-block text-xs font-semibold tracking-widest uppercase mb-3 px-3 py-1 rounded-full"
-            style={{ background: 'var(--accent-400)', color: 'var(--bg-base)' }}
+            style={{ background: 'var(--accent-link)', color: 'var(--bg-base)' }}
           >
             Dark-Sky Windows
           </span>
@@ -28,7 +28,7 @@ export default function HomePage() {
           <a
             href="#parks"
             className="inline-block rounded-lg px-6 py-3 font-semibold text-sm"
-            style={{ background: 'var(--accent-400)', color: 'var(--bg-base)' }}
+            style={{ background: 'var(--accent-link)', color: 'var(--bg-base)' }}
           >
             See this week's windows ↓
           </a>

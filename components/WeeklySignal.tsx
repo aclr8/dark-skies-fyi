@@ -59,7 +59,7 @@ export default function WeeklySignal({ nights }: Props) {
 
           {night.cloud_cover_available && night.cloud_cover_hourly.length > 0 && (
             <div className="mt-4">
-              <p className="text-xs mb-2" style={{ color: 'var(--fg-muted)' }}>Cloud cover during dark window</p>
+              <p className="text-sm mb-2" style={{ color: 'var(--fg-secondary)' }}>Cloud cover during dark window</p>
               <div className="flex gap-1 items-end h-10">
                 {night.cloud_cover_hourly.map((h) => {
                   const pct = h.pct
@@ -70,7 +70,7 @@ export default function WeeklySignal({ nights }: Props) {
                       <div
                         style={{ height: `${height}%`, minHeight: 4, background: color, borderRadius: 2, width: '100%' }}
                       />
-                      <span className="text-xs" style={{ color: 'var(--fg-muted)', fontSize: '0.6rem' }}>
+                      <span style={{ color: 'var(--fg-muted)', fontSize: '0.75rem', lineHeight: 1 }}>
                         {h.hour.slice(0, 2)}
                       </span>
                     </div>

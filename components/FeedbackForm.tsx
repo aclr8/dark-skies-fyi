@@ -116,7 +116,7 @@ export default function FeedbackForm() {
           type="submit"
           className="w-full rounded-lg py-2.5 text-sm font-semibold"
           style={{
-            background: 'var(--accent-400)',
+            background: 'var(--accent-link)',
             color: 'var(--bg-base)',
           }}
         >

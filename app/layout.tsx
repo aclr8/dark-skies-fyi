@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <a
                 href="#suggest"
                 className="text-sm"
-                style={{ color: 'var(--accent-400)', textDecoration: 'none' }}
+                style={{ color: 'var(--accent-link)', textDecoration: 'none' }}
               >
                 Suggest a park
               </a>
@@ -36,9 +36,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <footer style={{ borderTop: '1px solid var(--border)', marginTop: '4rem' }}>
           <div className="max-w-5xl mx-auto px-4 py-6 text-sm" style={{ color: 'var(--fg-muted)' }}>
             <p>
-              Data: <a href="https://open-meteo.com" style={{ color: 'var(--accent-400)' }}>Open-Meteo</a> ·{' '}
+              Data: <a href="https://open-meteo.com" style={{ color: 'var(--accent-link)' }}>Open-Meteo</a> ·{' '}
               Astronomical calculations computed offline ·{' '}
-              <a href="mailto:contact@dark-skies.fyi" style={{ color: 'var(--accent-400)' }}>contact@dark-skies.fyi</a>
+              <a href="mailto:contact@dark-skies.fyi" style={{ color: 'var(--accent-link)' }}>contact@dark-skies.fyi</a>
             </p>
           </div>
         </footer>

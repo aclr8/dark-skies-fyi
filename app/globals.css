@@ -9,9 +9,10 @@
   --accent-400: #526788;
   --accent-500: #3d5068;
   --accent-100: #d0dae6;
+  --accent-link: #8ab5d4;    /* links & btn bg — 8:1 on bg-card, AAA */
   --fg-primary: #f9fafb;
-  --fg-secondary: #b0b8c4;
-  --fg-muted: #94a3b8;
+  --fg-secondary: #b0b8c4;   /* 8.7:1 on bg-card, AAA */
+  --fg-muted: #9db0c4;       /* 7.7:1 on bg-card, AAA */
   --border: #1f2937;
   --rating-great: #22c55e;
   --rating-good: #84cc16;

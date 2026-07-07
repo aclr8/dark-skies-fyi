@@ -27,11 +27,11 @@ export default function PlanningTable({ windows }: Props) {
         <table className="w-full text-sm" style={{ borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ background: 'var(--bg-card)', borderBottom: '1px solid var(--border)' }}>
-              <th className="text-left px-4 py-3 font-medium" style={{ color: 'var(--fg-muted)' }}>Window</th>
-              <th className="text-left px-4 py-3 font-medium hidden sm:table-cell" style={{ color: 'var(--fg-muted)' }}>New Moon</th>
-              <th className="text-right px-4 py-3 font-medium" style={{ color: 'var(--fg-muted)' }}>Hi / Lo °F</th>
+              <th className="text-left px-4 py-3 font-medium" style={{ color: 'var(--fg-secondary)' }}>Window</th>
+              <th className="text-left px-4 py-3 font-medium hidden sm:table-cell" style={{ color: 'var(--fg-secondary)' }}>New Moon</th>
+              <th className="text-right px-4 py-3 font-medium" style={{ color: 'var(--fg-secondary)' }}>Hi / Lo °F</th>
               <th className="text-center px-4 py-4 font-medium hidden md:table-cell" style={{ color: 'var(--fg-secondary)', lineHeight: 1.3 }}>5yr Temp<br />Trend</th>
-              <th className="text-center px-4 py-3 font-medium" style={{ color: 'var(--fg-muted)' }}>Comfort</th>
+              <th className="text-center px-4 py-3 font-medium" style={{ color: 'var(--fg-secondary)' }}>Comfort</th>
             </tr>
           </thead>
           <tbody>
@@ -43,7 +43,7 @@ export default function PlanningTable({ windows }: Props) {
                   borderBottom: '1px solid var(--border)',
                 }}
               >
-                <td className="px-4 py-3 font-mono text-xs" style={{ color: 'var(--fg-primary)' }}>
+                <td className="px-4 py-3 font-mono text-sm" style={{ color: 'var(--fg-primary)' }}>
                   {w.window_start.slice(5)} – {w.window_end.slice(5)}
                 </td>
                 <td className="px-4 py-3 hidden sm:table-cell" style={{ color: 'var(--fg-secondary)' }}>
@@ -71,7 +71,7 @@ export default function PlanningTable({ windows }: Props) {
           </tbody>
         </table>
       </div>
-      <p className="text-xs mt-2" style={{ color: 'var(--fg-muted)' }}>
+      <p className="text-sm mt-2" style={{ color: 'var(--fg-muted)' }}>
         ↑ = warming trend ≥ +5.4°F/12yr · – = flat · Comfort: Great &lt;65° · Good 65–84° · Warm 85–100° · Hot &gt;100°
       </p>
     </section>
