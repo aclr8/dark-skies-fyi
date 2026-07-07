@@ -25,7 +25,7 @@
       {
         "date": "2026-07-07", "label": "Tue Jul 7", "rating": "good", "rating_emoji": "🌙",
         "dark_window_start": "21:14", "dark_window_end": "01:18", "dark_window_minutes": 244,
-        "moon_phase_name": "Waning Gibbous", "moon_illumination_pct": 40, "moon_age_days": 23,
+        "moon_phase_name": "Waning Crescent", "moon_illumination_pct": 40, "moon_age_days": 23,
         "moonrise": "01:18", "moonset": "14:10",
         "cloud_cover_hourly": [
           {"hour":"21:00","pct":15},{"hour":"22:00","pct":18},{"hour":"23:00","pct":20},
