@@ -3,6 +3,13 @@ import { getAllParkSlugs, getParkData } from '@/lib/getParkData'
 import WeeklySignal from '@/components/WeeklySignal'
 import PlanningTable from '@/components/PlanningTable'
 
+// Data is computed live (moon/twilight math + an Open-Meteo weather call) on
+// each request, cached for an hour — see lib/getParkData.ts. generateStaticParams
+// pre-renders this page at build time for known parks; revalidate keeps it
+// from ever going stale beyond an hour (ISR), with no cron job or committed
+// data file involved.
+export const revalidate = 3600
+
 export async function generateStaticParams() {
   return getAllParkSlugs().map((slug) => ({ slug }))
 }
@@ -11,8 +18,8 @@ interface Props {
   params: { slug: string }
 }
 
-export default function ParkPage({ params }: Props) {
-  const data = getParkData(params.slug)
+export default async function ParkPage({ params }: Props) {
+  const data = await getParkData(params.slug)
   if (!data) notFound()
 
   const { park, this_week, planning_table } = data

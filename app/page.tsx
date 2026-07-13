@@ -2,9 +2,14 @@ import { getAllParkSlugs, getParkData } from '@/lib/getParkData'
 import ParkCard from '@/components/ParkCard'
 import FeedbackForm from '@/components/FeedbackForm'
 
-export default function HomePage() {
+// Data is computed live (moon/twilight math + an Open-Meteo weather call) on
+// each request, cached for an hour so visitors aren't all triggering a fresh
+// computation — see lib/getParkData.ts.
+export const revalidate = 3600
+
+export default async function HomePage() {
   const slugs = getAllParkSlugs()
-  const parks = slugs.map((s) => getParkData(s)).filter(Boolean)
+  const parks = (await Promise.all(slugs.map((s) => getParkData(s)))).filter(Boolean)
 
   return (
     <>
@@ -22,8 +27,8 @@ export default function HomePage() {
             <span style={{ color: 'var(--accent-100)' }}>perfect dark sky</span>
           </h1>
           <p className="text-lg mb-6 max-w-lg" style={{ color: 'var(--fg-secondary)' }}>
-            Weekly moon &amp; weather windows for desert state and national parks.
-            Updated every Wednesday.
+            Live moon &amp; weather windows for desert state and national parks,
+            refreshed hourly.
           </p>
           <a
             href="#parks"
