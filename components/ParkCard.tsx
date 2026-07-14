@@ -28,7 +28,7 @@ export default function ParkCard({ park }: Props) {
         </h3>
         {thisNight && (
           <span className={`rating-pill ${ratingClass[thisNight.rating]}`}>
-            {thisNight.rating_emoji} This Fri
+            {thisNight.rating_emoji} Tonight
           </span>
         )}
       </div>
