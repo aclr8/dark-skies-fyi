@@ -36,10 +36,10 @@ export function computeRating(
   cloudAvg: number | null
 ): { rating: 'great' | 'good' | 'marginal' | 'poor'; emoji: string } {
   const cloud = cloudAvg ?? 50 // pessimistic default when weather is unavailable
-  if (illumination <= 10 && cloud <= 20) return { rating: 'great', emoji: '⭐' }
-  if (illumination <= 30 && cloud <= 40) return { rating: 'good', emoji: '✅' }
+  if (illumination <= 10 && cloud <= 20) return { rating: 'great', emoji: '🤩' }
+  if (illumination <= 30 && cloud <= 40) return { rating: 'good', emoji: '😍' }
   if (illumination <= 55 || cloud <= 55) return { rating: 'marginal', emoji: '🌥' }
-  return { rating: 'poor', emoji: '☁️' }
+  return { rating: 'poor', emoji: '😞' }
 }
 
 export function weatherVerdict(cloudAvg: number | null): string | null {
@@ -56,11 +56,24 @@ export function moonNote(illumination: number): string | null {
   return null
 }
 
-export function comfortRating(tempHigh: number): { rating: 'great' | 'good' | 'warm' | 'hot'; label: string } {
-  if (tempHigh < 65) return { rating: 'great', label: 'Great' }
-  if (tempHigh < 85) return { rating: 'good', label: 'Good' }
-  if (tempHigh < 100) return { rating: 'warm', label: 'Warm' }
-  return { rating: 'hot', label: 'Hot' }
+// Southwest US air-temperature comfort scale (the user's own daytime-high
+// preferences, not a standard external convention). Ranges are contiguous:
+// Icy <32° · V. Cold 32-49° · Cold 50-60° · Comfortable 61-72° · Warm 73-78°
+// · Hot 79-99° · V Hot 100-112° · Way Too Hot >=113°.
+export function comfortRating(
+  tempHigh: number
+): {
+  rating: 'icy' | 'very_cold' | 'cold' | 'comfortable' | 'warm' | 'hot' | 'very_hot' | 'way_too_hot'
+  label: string
+} {
+  if (tempHigh < 32) return { rating: 'icy', label: 'Icy' }
+  if (tempHigh <= 49) return { rating: 'very_cold', label: 'V. Cold' }
+  if (tempHigh <= 60) return { rating: 'cold', label: 'Cold' }
+  if (tempHigh <= 72) return { rating: 'comfortable', label: 'Comfortable' }
+  if (tempHigh <= 78) return { rating: 'warm', label: 'Warm' }
+  if (tempHigh <= 99) return { rating: 'hot', label: 'Hot' }
+  if (tempHigh <= 112) return { rating: 'very_hot', label: 'V Hot' }
+  return { rating: 'way_too_hot', label: 'Way Too Hot' }
 }
 
 // ── Timezone-aware local <-> UTC helpers ────────────────────────────────────
@@ -149,6 +162,17 @@ export function dateInZoneMatches(date: Date, timeZone: string, y: number, m: nu
 export function weekdayShortLabel(y: number, m: number, d: number, timeZone: string): string {
   const noon = zonedTimeToUtc(y, m, d, 12, 0, timeZone)
   return new Intl.DateTimeFormat('en-US', { timeZone, weekday: 'short', month: 'short', day: 'numeric' }).format(noon)
+}
+
+/**
+ * Short local timezone abbreviation (e.g. "PDT"/"PST") for a park's already-known
+ * IANA zone — just an Intl formatting call, not a new geo/astronomical lookup.
+ */
+export function tzAbbreviation(date: Date, timeZone: string): string {
+  const parts = new Intl.DateTimeFormat('en-US', { timeZone, timeZoneName: 'short', hour: 'numeric' }).formatToParts(
+    date
+  )
+  return parts.find((p) => p.type === 'timeZoneName')?.value ?? timeZone
 }
 
 // ── Moon phase (illumination %, age, waxing/waning) ─────────────────────────

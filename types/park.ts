@@ -6,6 +6,8 @@ export interface CloudCoverHour {
 export interface ParkNight {
   date: string;
   label: string;
+  is_tonight: boolean;
+  tz_abbr: string;
   rating: 'great' | 'good' | 'marginal' | 'poor';
   rating_emoji: string;
   dark_window_start: string;
@@ -21,6 +23,8 @@ export interface ParkNight {
   cloud_cover_available: boolean;
   weather_verdict: string | null;
   moon_note: string | null;
+  dark_window_temp_low_f: number | null;
+  dark_window_temp_high_f: number | null;
 }
 
 export interface PlanningWindow {
@@ -32,7 +36,7 @@ export interface PlanningWindow {
   temp_low_f: number;
   temp_trend: 'up' | 'down' | 'flat';
   temp_data_source: string;
-  comfort_rating: 'great' | 'good' | 'warm' | 'hot';
+  comfort_rating: 'icy' | 'very_cold' | 'cold' | 'comfortable' | 'warm' | 'hot' | 'very_hot' | 'way_too_hot';
   comfort_label: string;
 }
 

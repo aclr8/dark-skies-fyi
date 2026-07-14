@@ -14,6 +14,7 @@ import {
   isoDate,
   hhmmInZone,
   weekdayShortLabel,
+  tzAbbreviation,
 } from './astro'
 
 // ── Park registry ────────────────────────────────────────────────────────────
@@ -67,16 +68,23 @@ export function getAllParkSlugs(): string[] {
 
 // ── Weather (Open-Meteo, server-side fetch, cached via Next's fetch cache) ──
 
-async function fetchHourlyCloud(
+interface HourlyWeather {
+  hour: string
+  cloudPct: number
+  tempF: number
+}
+
+async function fetchHourlyWeather(
   lat: number,
   lon: number,
   startISO: string,
   endISO: string,
   tzStr: string
-): Promise<Record<string, CloudCoverHour[]>> {
+): Promise<Record<string, HourlyWeather[]>> {
   const url =
     `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
-    `&hourly=cloud_cover&timezone=${encodeURIComponent(tzStr)}` +
+    `&hourly=cloud_cover,temperature_2m&temperature_unit=fahrenheit` +
+    `&timezone=${encodeURIComponent(tzStr)}` +
     `&start_date=${startISO}&end_date=${endISO}`
 
   try {
@@ -88,32 +96,34 @@ async function fetchHourlyCloud(
     const json = await res.json()
     const times: string[] = json?.hourly?.time ?? []
     const clouds: number[] = json?.hourly?.cloud_cover ?? []
+    const temps: number[] = json?.hourly?.temperature_2m ?? []
 
-    const byDate: Record<string, CloudCoverHour[]> = {}
+    const byDate: Record<string, HourlyWeather[]> = {}
     times.forEach((t, i) => {
       const dateStr = t.slice(0, 10)
       const hourStr = t.slice(11, 16)
-      const pct = Math.round(clouds[i] ?? 0)
-      ;(byDate[dateStr] ??= []).push({ hour: hourStr, pct })
+      const cloudPct = Math.round(clouds[i] ?? 0)
+      const tempF = Math.round(temps[i] ?? 0)
+      ;(byDate[dateStr] ??= []).push({ hour: hourStr, cloudPct, tempF })
     })
     return byDate
   } catch (err) {
-    console.error('[dark-skies] cloud-cover fetch failed:', err)
+    console.error('[dark-skies] weather fetch failed:', err)
     return {}
   }
 }
 
-function darkCloudHours(
-  byDate: Record<string, CloudCoverHour[]>,
+function darkWindowWeather(
+  byDate: Record<string, HourlyWeather[]>,
   dateISO: string,
   nextDateISO: string,
   darkStart: string,
   darkEnd: string
-): { hours: CloudCoverHour[]; avg: number | null } {
+): { cloudHours: CloudCoverHour[]; cloudAvg: number | null; tempLowF: number | null; tempHighF: number | null } {
   const startH = parseInt(darkStart.slice(0, 2), 10)
   const endH = parseInt(darkEnd.slice(0, 2), 10)
 
-  const hours: CloudCoverHour[] = []
+  const hours: HourlyWeather[] = []
   for (const h of byDate[dateISO] ?? []) {
     if (parseInt(h.hour.slice(0, 2), 10) >= startH) hours.push(h)
   }
@@ -121,8 +131,13 @@ function darkCloudHours(
     if (parseInt(h.hour.slice(0, 2), 10) <= endH) hours.push(h)
   }
 
-  const avg = hours.length ? Math.round(hours.reduce((s, h) => s + h.pct, 0) / hours.length) : null
-  return { hours, avg }
+  const cloudHours = hours.map((h) => ({ hour: h.hour, pct: h.cloudPct }))
+  const cloudAvg = hours.length ? Math.round(hours.reduce((s, h) => s + h.cloudPct, 0) / hours.length) : null
+  const temps = hours.map((h) => h.tempF)
+  const tempLowF = temps.length ? Math.min(...temps) : null
+  const tempHighF = temps.length ? Math.max(...temps) : null
+
+  return { cloudHours, cloudAvg, tempLowF, tempHighF }
 }
 
 // ── Main generator (replaces scripts/generate_data.py) ──────────────────────
@@ -140,7 +155,7 @@ export async function getParkData(slug: string): Promise<ParkData | null> {
   // One Open-Meteo call covers all 7 nights + the following mornings (8 calendar days)
   const rangeStart = dates[0]
   const rangeEndPlusOne = addDays(dates[6].year, dates[6].month, dates[6].day, 1)
-  const hourlyByDate = await fetchHourlyCloud(
+  const hourlyByDate = await fetchHourlyWeather(
     lat,
     lon,
     isoDate(rangeStart.year, rangeStart.month, rangeStart.day),
@@ -165,14 +180,25 @@ export async function getParkData(slug: string): Promise<ParkData | null> {
 
     const { moonrise, moonset } = getMoonRiseSet(dayStart, lat, lon)
 
-    const { hours: cloudHours, avg: cloudAvg } = darkCloudHours(hourlyByDate, dateISO, nextDateISO, darkStart, darkEnd)
+    const { cloudHours, cloudAvg, tempLowF, tempHighF } = darkWindowWeather(
+      hourlyByDate,
+      dateISO,
+      nextDateISO,
+      darkStart,
+      darkEnd
+    )
     const { rating, emoji } = computeRating(moon.illumination, cloudAvg)
 
-    const label = i === 0 ? 'Tonight' : i === 1 ? 'Tomorrow' : weekdayShortLabel(d.year, d.month, d.day, tz)
+    // "Tonight"/"Tomorrow" now carry the same DOW + month/date detail as every
+    // other night's heading, just prefixed with the relative word.
+    const dowDate = weekdayShortLabel(d.year, d.month, d.day, tz)
+    const label = i === 0 ? `Tonight, ${dowDate}` : i === 1 ? `Tomorrow, ${dowDate}` : dowDate
 
     return {
       date: dateISO,
       label,
+      is_tonight: i === 0,
+      tz_abbr: tzAbbreviation(localNoon, tz),
       rating,
       rating_emoji: emoji,
       dark_window_start: darkStart,
@@ -188,6 +214,8 @@ export async function getParkData(slug: string): Promise<ParkData | null> {
       cloud_cover_available: cloudAvg !== null,
       weather_verdict: weatherVerdict(cloudAvg),
       moon_note: moonNote(moon.illumination),
+      dark_window_temp_low_f: tempLowF,
+      dark_window_temp_high_f: tempHighF,
     }
   })
 

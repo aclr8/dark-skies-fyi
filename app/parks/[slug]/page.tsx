@@ -37,7 +37,19 @@ export default async function ParkPage({ params }: Props) {
         <p className="text-sm mt-2" style={{ color: 'var(--fg-muted)' }}>
           {park.latitude.toFixed(2)}°N, {Math.abs(park.longitude).toFixed(2)}°W ·{' '}
           {park.timezone} ·{' '}
-          Updated {new Date(data.generated_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+          Updated{' '}
+          {/* Rendered in the park's own local zone (not the server's), since
+              data now refreshes hourly and the exact time matters, not just
+              the date. */}
+          {new Intl.DateTimeFormat('en-US', {
+            timeZone: park.timezone,
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            timeZoneName: 'short',
+          }).format(new Date(data.generated_at))}
         </p>
       </header>
 
