@@ -38,7 +38,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <p>
               Data: <a href="https://open-meteo.com" style={{ color: 'var(--accent-link)' }}>Open-Meteo</a> ·{' '}
               Astronomical calculations computed offline ·{' '}
-              <a href="mailto:contact@dark-skies.fyi" style={{ color: 'var(--accent-link)' }}>contact@dark-skies.fyi</a>
+              <a href="mailto:contact@dark-skies.fyi" style={{ color: 'var(--accent-link)' }}>contact@dark-skies.fyi</a> ·{' '}
+              <a
+                href="https://www.linkedin.com/in/al-dean/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: 'var(--accent-link)' }}
+              >
+                LinkedIn
+              </a>
             </p>
           </div>
         </footer>
