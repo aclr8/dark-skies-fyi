@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </a>
             <nav aria-label="Site navigation">
               <a
-                href="#suggest"
+                href="/#suggest"
                 className="text-sm"
                 style={{ color: 'var(--accent-link)', textDecoration: 'none' }}
               >
